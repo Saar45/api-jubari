@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Approbationconge extends Model
 {
-    protected $table = 'APPROBATION_CONGES';
-    protected $primaryKey = 'idApprobation';
-    public $timestamps = false; 
-    protected $fillable = ['niveauApprobation', 'dateApprobation', 'statutApprobation', 'idConge'];
 
+    protected $useTimestamps = false; 
 
-    public function employe()
+    
+    public function employes()
     {
-        return $this->belongsTo('App\Models\Employe');
+        return $this->belongsToMany('App\Models\Employe');
     }
 }

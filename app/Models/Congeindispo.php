@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Congeindispo extends Model
 {
-    protected $table = 'CONGE_INDISPO';
-    protected $primaryKey = 'idConge';
-    public $timestamps = false;
-    protected $fillable = ['descriptionDemande', 'dateEffectiveVoulue', 'dateRetourVoulue', 'paye_O_N', 'etat'];
+
+    protected $useTimestamps = false; // No need to use timestamps since the view doesn't have created_at or updated_at columns.
 
     public function employe()
     {
-        return $this->belongsTo(Employe::class, 'idEmploye');
+        return $this->belongsTo('App\Models\Employe');
     }
+
+    //Penser à modifier le mcd, pour qu'on ait la clé étrangère employe_id. 1:N au lien de N:N
 }
