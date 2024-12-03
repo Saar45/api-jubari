@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Historiqueconge extends Model
 {
+    protected $table = 'v_historique_conge';
 
     protected $useTimestamps = false; 
+
+    // Un historique de congé appartient à un employé
     public function employe()
     {
-        return $this->belongsTo('App\Models\Employe');
+        return $this->belongsTo(Employe::class, 'employe_id');
     }
 
-    public function conge()
+    // Un historique de congé peut avoir plusieurs congés associés
+    public function conges()
     {
-        return $this->belongsTo('App\Models\Congeindispo');
+        return $this->hasMany(Conge::class, 'historique_conge_id');
     }
 }

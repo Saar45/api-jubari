@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Employe;
-use App\Models\Congeindispo;
+use App\Models\Conge;
 use App\Models\Message;
 
 
@@ -11,20 +11,20 @@ class Test extends BaseController
 {
     public function getIndex()
     {
-        $unemploye = Employe::find(20);
+        $unemploye = Employe::find(19);
         
-        echo "Nom de l'employe number 4 : " . $unemploye->id ;
+        echo "Nom de l'employe number 4 : " . $unemploye->ville ;
 
-        echo "<br>";
+      /*  echo "<br>";
 
         $unconge = Congeindispo::find(101);
 
-        echo "Conge 101: " . $unconge->description ;
+        echo "Conge 101: " . $unconge->description ;*/
 
         echo "<br>";
 
-        $unmessage = Message::find(3);
+       //$unemploye = Message::find(3);
 
-        echo "Message 3: " . $unmessage->description ;
+        echo "Message 3: " . Message::find(1)->employe->service->nom ;
     }
 }

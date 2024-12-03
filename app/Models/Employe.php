@@ -3,31 +3,39 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 class Employe extends Model
 {
-    //protected $table      = 'employes'; // Define the view name as the table
+    protected $table = 'v_employe';
 
     protected $useTimestamps = false; 
 
-    public function approbations()
+    // Un employé appartient à un service
+    public function service()
     {
-        return $this->belongsToMany('App\Models\Approbationconge');
+        return $this->belongsTo(Service::class, 'service_id');
     }
 
+    // Un employé peut diriger un service
+    public function serviceDirige()
+    {
+        return $this->belongsTo(Service::class, 'dirige_service_id');
+    }
+
+    // Un employé peut avoir plusieurs congés
     public function conges()
     {
-        return $this->hasMany('App\Models\Congeindispo');
+        return $this->hasMany(Conge::class, 'employe_id');
     }
 
-    public function chef()
+    // Un employé peut avoir plusieurs historiques de congés
+    public function historiquesConges()
     {
-        return $this->belongsTo('App\Models\Employe');
+        return $this->hasMany(HistoriqueConge::class, 'employe_id');
     }
 
+    // Un employé peut avoir plusieurs messages
     public function messages()
     {
-        return $this->hasMany('App\Models\Employe');
+        return $this->hasMany(Message::class, 'employe_id');
     }
-
 }
