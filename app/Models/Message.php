@@ -8,8 +8,7 @@ class Message extends Model
 {
     protected $table = 'v_message';
 
-    protected $useTimestamps = false; 
-
+    public $timestamps = false; 
 
     // Un message appartient à un employé
     public function employe()

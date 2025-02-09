@@ -8,7 +8,7 @@ class Historiqueconge extends Model
 {
     protected $table = 'v_historique_conge';
 
-    protected $useTimestamps = false; 
+    public $timestamps = false; 
 
     // Un historique de congé appartient à un employé
     public function employe()

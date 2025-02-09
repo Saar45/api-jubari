@@ -6,6 +6,10 @@
  *---------------------------------------------------------------
  */
 
+ header("Access-Control-Allow-Origin: *");
+ header("Access-Control-Expose-Headers: Content-Length, X-JSON");
+ header("Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS");
+ header("Access-Control-Allow-Headers: *");
 $minPhpVersion = '8.1'; // If you update this, don't forget to update `spark`.
 if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     $message = sprintf(
@@ -18,6 +22,12 @@ if (version_compare(PHP_VERSION, $minPhpVersion, '<')) {
     echo $message;
 
     exit(1);
+}
+
+// Handle OPTIONS requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('HTTP/1.1 200 OK');
+    exit();
 }
 
 /*

@@ -17,7 +17,8 @@ class Eloquent
         'password'  => $db_config->default['password'],
         'charset'  =>  $db_config->default['charset'],
         'collation' => $db_config->default['DBCollat'],
-        'prefix'    => $db_config->default['DBPrefix']
+        'prefix'    => $db_config->default['DBPrefix'],
+        'unix_socket' => getenv('DB_SOCKET') ?: '/Applications/MAMP/tmp/mysql/mysql.sock',
     ]);
     $capsule->setAsGlobal();
     $capsule->bootEloquent();

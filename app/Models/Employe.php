@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 class Employe extends Model
 {
     protected $table = 'v_employe';
 
-    protected $useTimestamps = false; 
+    public $timestamps = false; 
 
     // Un employé appartient à un service
     public function service()

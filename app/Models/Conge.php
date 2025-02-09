@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 class Conge extends Model
 {
     protected $table = 'v_conge';
 
-    protected $useTimestamps = false; 
-
+    public $timestamps = false; 
 
     // Un congé appartient à un employé
     public function employe()

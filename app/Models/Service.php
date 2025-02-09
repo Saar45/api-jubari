@@ -8,7 +8,7 @@ class Service extends Model
 {
     protected $table = 'v_service';
 
-    protected $useTimestamps = false; 
+    public $timestamps = false; 
 
 
     // Un service peut avoir plusieurs employés
