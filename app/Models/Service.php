@@ -17,9 +17,9 @@ class Service extends Model
         return $this->hasMany(Employe::class, 'service_id');
     }
 
-    // Un service peut être dirigé par plusieurs employés (gestion multi-dirigeants)
-    public function employesDirigeants()
+    // Un service est dirigé par un employé
+    public function employeDirige()
     {
-        return $this->hasMany(Employe::class, 'dirige_service_id');
+        return $this->belongsTo(Employe::class, 'employe_id');
     }
 }

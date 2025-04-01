@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Historiqueconge extends Model
 {
-    protected $table = 'v_historique_conge';
+    protected $table = 'v_historique_conges';
 
     public $timestamps = false; 
 
