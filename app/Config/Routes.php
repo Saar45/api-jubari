@@ -7,4 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->post('login', 'Login::login');
+$routes->post('register', 'Registration::register');
 $routes->options('(:any)', 'CorsController::preflight');
