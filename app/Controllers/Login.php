@@ -1,6 +1,6 @@
 <?php
 
-/*namespace App\Controllers;
+namespace App\Controllers;
 
 use App\Models\Employe;
 use CodeIgniter\RESTful\ResourceController;
@@ -45,9 +45,9 @@ class Login extends ResourceController
         
         return $this->respond($response);
     }
-}*/
+}
 
-//<?php
+/*<?php
 
 namespace App\Controllers;
 
@@ -82,4 +82,4 @@ class Login extends ResourceController
         $response = ['message' => 'Connexion réussie', 'token' => $token, 'user_id' => $user->id]; 
         return $this->respond($response);
     }
-}
+}*/

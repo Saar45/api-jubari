@@ -11,9 +11,9 @@ use CodeIgniter\RESTful\ResourceController;
 
 class Api extends ResourceController
 {
+    // -------------------- Service CRUD Operations --------------------
 
-
-    // CRUD operations for Service
+    // Get all services
     public function getServices()
     {
         $lesServices = Service::all();
@@ -35,6 +35,7 @@ class Api extends ResourceController
         return $this->respond($formattedServices);
     }
 
+    // Get a specific service by ID
     public function getService($id)
     {
         $leService = Service::find($id);
@@ -46,6 +47,7 @@ class Api extends ResourceController
         }
     }
 
+    // Create a new service
     public function postService()
     {
         $description = $this->request->getVar('description');
@@ -66,6 +68,7 @@ class Api extends ResourceController
         }
     }
 
+    // Update an existing service
     public function putService()
     {
         $id = $this->request->getVar('id');
@@ -92,6 +95,7 @@ class Api extends ResourceController
         }
     }
 
+    // Delete a service
     public function deleteService()
     {
         $data = $this->request->getRawInput();
@@ -116,13 +120,16 @@ class Api extends ResourceController
         }
     }
 
-    // CRUD operations for Message
+    // -------------------- Message CRUD Operations --------------------
+
+    // Get all messages
     public function getMessages()
     {
         $lesMessages = Message::all();
         return $this->respond($lesMessages);
     }
 
+    // Get a specific message by ID
     public function getMessage($id)
     {
         $leMessage = Message::find($id);
@@ -134,12 +141,14 @@ class Api extends ResourceController
         }
     }
 
+    // Get messages by employee ID
     public function getMessageByEmploye($id)
     {
         $leMessage = Message::where('employe_id', $id)->get();
         return $this->respond($leMessage);
     }
 
+    // Create a new message
     public function postMessage()
     {
         $date = $this->request->getVar('date');
@@ -164,6 +173,7 @@ class Api extends ResourceController
         }
     }
 
+    // Update an existing message
     public function putMessage()
     {
         $id = $this->request->getPost('id');
@@ -189,6 +199,7 @@ class Api extends ResourceController
         }
     }
 
+    // Delete a message
     public function deleteMessage()
     {
         $data = $this->request->getRawInput();
@@ -205,13 +216,16 @@ class Api extends ResourceController
         }
     }
 
-    // CRUD operations for Historiqueconge
+    // -------------------- Historiqueconge CRUD Operations --------------------
+
+    // Get all historiqueconges
     public function getHistoriqueconges()
     {
         $historique = Message::all();
         return $this->respond($historique);
     }
 
+    // Get a specific historiqueconge by ID
     public function getHistoriqueconge($id)
     {
         $historique = Historiqueconge::find($id);
@@ -223,12 +237,14 @@ class Api extends ResourceController
         }
     }
 
+    // Get historiqueconges by employee ID
     public function getHistoriquecongeByEmploye($id)
     {
         $historique = Historiqueconge::where('employe_id', $id)->get();
         return $this->respond($historique);
     }
 
+    // Create a new historiqueconge
     public function postHistoriqueconge()
     {
         $data = $this->request->getRawInput();
@@ -258,6 +274,7 @@ class Api extends ResourceController
         }
     }
 
+    // Update the status of a historiqueconge
     public function putStatutConge()
     {
         $id = $this->request->getVar('id');
@@ -288,6 +305,7 @@ class Api extends ResourceController
         }
     }
 
+    // Delete a historiqueconge
     public function deleteHistoriqueconge()
     {
         $data = $this->request->getRawInput();
@@ -305,7 +323,9 @@ class Api extends ResourceController
         }
     }
 
-    // CRUD operations for Employe
+    // -------------------- Employe CRUD Operations --------------------
+
+    // Get all employees
     public function getEmployes()
     {
         $lesEmployes = Employe::all();
@@ -331,6 +351,7 @@ class Api extends ResourceController
         return $this->respond($formattedEmployes);
     }
 
+    // Get a specific employee by ID
     public function getEmploye($id)
     {
         $employe = Employe::find($id);
@@ -353,6 +374,7 @@ class Api extends ResourceController
         }
     }
 
+    // Get employees by service ID
     public function getEmployesByService($serviceId)
     {
         if (!$serviceId) {
@@ -375,6 +397,7 @@ class Api extends ResourceController
         return $this->respond($employes);
     }
 
+    // Get the count of employees in a service
     public function getServiceEmployeCount($serviceId)
     {
         if (!$serviceId) {
@@ -386,12 +409,14 @@ class Api extends ResourceController
         return $this->respond(['total' => $count]);
     }
 
+    // Search employees by name
     public function getEmployeByNom($nom)
     {
         $lesEmployes = Employe::where('nom', 'LIKE', '%' . $nom . '%')->get();
         return $this->respond($lesEmployes);
     }
 
+    // Update an existing employee
     public function putEmploye()
     {
         $id = $this->request->getVar('id');
@@ -437,18 +462,28 @@ class Api extends ResourceController
         }
     }
 
+    // Update an employee's password
     public function putEmployePassword()
     {
-        $data = $this->request->getRawInput();
-        $motdepasse = $data['password'];
-        $id = $data['id'];
-        $employe = new Employe();
-        $employe = $employe->find($id);
+        //$data = $this->request->getRawInput();
+        $old_password = $this->request->getVar('old_password');
+        $new_password = $this->request->getVar('new_password');
+        $id = $this->request->getVar('id');
+
+        $employe = Employe::find($id);
         if (!$employe) {
             return $this->fail('Employe non trouvé');
         }
-        $employe->motdepasse = $motdepasse;
+
+        // Verify old password
+        if (!password_verify($old_password, $employe->motdepasse)) {
+            return $this->fail('Ancien mot de passe incorrect', 401);
+        }
+
+        // Hash and save new password
+        $employe->motdepasse = password_hash($new_password, PASSWORD_DEFAULT);
         $result = $employe->save();
+
         if ($result === 0) {
             return $this->fail('Mot de passe non modifié');
         } else {
@@ -456,6 +491,7 @@ class Api extends ResourceController
         }
     }
 
+    // Delete an employee
     public function deleteEmploye()
     {
         $data = $this->request->getRawInput();
@@ -473,6 +509,7 @@ class Api extends ResourceController
         }
     }
 
+    // Assign an employee as the chief of a service
     public function putEmployeServiceDirige()
     {
         $employe_id = $this->request->getVar('employe_id');
@@ -497,6 +534,7 @@ class Api extends ResourceController
         }
     }
 
+    // Clear the chief of a service
     public function putClearServiceChief()
     {
         $serviceId = $this->request->getVar('service_id');
@@ -517,7 +555,9 @@ class Api extends ResourceController
         return $this->respondUpdated('Chef de service précédent retiré avec succès');
     }
 
-    // CRUD operations for Conge
+    // -------------------- Conge CRUD Operations --------------------
+
+    // Get all conges
     public function getAllConges()
     {
         $lesConges = Conge::all();
@@ -541,19 +581,20 @@ class Api extends ResourceController
                         'id' => $conge->employe->serviceDirige->id,
                         'nom' => $conge->employe->serviceDirige->nom
                     ] : null,
-                ], 
+                ],
                 'historiqueConge' => [
-                        'id' => $conge->historiqueConge->id,
-                        'dateDemande' => $conge->historiqueConge->date_demande,
-                        'dateDecision' => $conge->historiqueConge->date_decision,
-                        'etat' => $conge->historiqueConge->etat
-                    ],
+                    'id' => $conge->historiqueConge->id,
+                    'dateDemande' => $conge->historiqueConge->date_demande,
+                    'dateDecision' => $conge->historiqueConge->date_decision,
+                    'etat' => $conge->historiqueConge->etat
+                ],
             ];
         }
 
         return $this->respond($formattedConges);
     }
 
+    // Get a specific conge by ID
     public function getConge()
     {
         $id = $this->request->getGet('id');
@@ -570,6 +611,7 @@ class Api extends ResourceController
         return $this->respond($conge);
     }
 
+    // Create a new conge
     public function postConge()
     {
         $dateDebut = $this->request->getPost('dateD');
@@ -581,23 +623,31 @@ class Api extends ResourceController
         if ($dateDebut === null || $dateFin === null || $description === null || $paye === null || $idEmploye === null) {
             return $this->fail('Des informations sont manquantes', 400);
         } else {
-            $conge = new Conge();
-            $conge->date_effective = $dateDebut;
-            $conge->date_retour = $dateFin;
-            $conge->description = $description;
-            $conge->paye = $paye;
-            $conge->employe_id = $idEmploye;
+            $data = [
+                'date_effective' => $dateDebut,
+                'date_retour' => $dateFin,
+                'description' => $description,
+                'paye' => $paye,
+                'employe_id' => $idEmploye,
+            ];
 
-            $result = $conge->save();
+            try {
+                $result = Conge::insert($data);
 
-            if ($result === 0) {
-                return $this->fail('Congé non ajouté');
-            } else {
-                return $this->respondCreated('Congé ajouté avec succès');
+                if (!$result) {
+                    return $this->fail('Congé non ajouté');
+                } else {
+                    return $this->respondCreated('Congé ajouté avec succès');
+                }
+            } catch (\Exception $e) {
+                // Log the error for debugging
+                log_message('error', $e->getMessage());
+                return $this->fail('Erreur lors de l\'ajout du congé: ' . $e->getMessage());
             }
         }
     }
 
+    // Update an existing conge
     public function putConge()
     {
         $id = $this->request->getVar('id');
@@ -642,6 +692,7 @@ class Api extends ResourceController
         }
     }
 
+    // Update the decision of the direct chief for a conge
     public function putPriseDecisionChef()
     {
         $id = $this->request->getVar('id');
@@ -681,6 +732,7 @@ class Api extends ResourceController
         }
     }
 
+    // Update the decision of the HR for a conge
     public function putPriseDecisionRH()
     {
         $id = $this->request->getVar('id');
@@ -720,6 +772,7 @@ class Api extends ResourceController
         }
     }
 
+    // Delete a conge
     public function deleteConge()
     {
         $data = $this->request->getRawInput();
@@ -737,17 +790,20 @@ class Api extends ResourceController
         }
     }
 
+    // -------------------- Additional Operations --------------------
+
+    // Get the count of employees currently on leave
     public function getCurrentEmployesOnLeaveCount()
     {
         $today = date('Y-m-d');
-        
+
         $count = Conge::where('date_effective', '<=', $today)
             ->where('date_retour', '>=', $today)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNotNull('avis_chef_direct')
                     ->where('avis_chef_direct', '=', 1);
             })
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query->whereNotNull('avis_chef_rh')
                     ->where('avis_chef_rh', '=', 1);
             })
@@ -758,15 +814,16 @@ class Api extends ResourceController
         ]);
     }
 
+    // Get all current conges
     public function getCurrentConges()
     {
         $today = date('Y-m-d');
         $formattedConges = [];
-        
+
         $historiques = Historiqueconge::where('etat', 'Accepte')
-            ->with(['conges' => function($query) use ($today) {
+            ->with(['conges' => function ($query) use ($today) {
                 $query->where('date_effective', '<=', $today)
-                      ->where('date_retour', '>=', $today);
+                    ->where('date_retour', '>=', $today);
             }])
             ->get();
 
@@ -797,205 +854,7 @@ class Api extends ResourceController
         return $this->respond($formattedConges);
     }
 
-    // Additional requests based on relationships
-    /*public function getServiceEmployes()
-    {
-        $serviceId = $this->request->getGet('service_id');
-        if (!$serviceId) {
-            return $this->fail('Service ID parameter is required', 400);
-        }
-
-        $model = new Service();
-        $service = $model->find($serviceId);
-        return $this->respond($service->employes);
-    }*/
-
-    public function getServiceEmployesDirigeants()
-    {
-        $serviceId = $this->request->getGet('service_id');
-        if (!$serviceId) {
-            return $this->fail('Service ID parameter is required', 400);
-        }
-
-        $model = new Service();
-        $service = $model->find($serviceId);
-        return $this->respond($service->employesDirigeants);
-    }
-
-    public function getEmployeService()
-    {
-        $employeId = $this->request->getGet('employe_id');
-        if (!$employeId) {
-            return $this->fail('Employe ID parameter is required', 400);
-        }
-
-        $model = new Employe();
-        $employe = $model->find($employeId);
-        return $this->respond($employe->service);
-    }
-
-    public function getEmployeServiceDirige()
-    {
-        $employeId = $this->request->getGet('employe_id');
-        if (!$employeId) {
-            return $this->fail('Employe ID parameter is required', 400);
-        }
-
-        $model = new Employe();
-        $employe = $model->find($employeId);
-        return $this->respond($employe->serviceDirige);
-    }
-
-    public function getEmployeConges($employeId)
-    {
-
-        if (!$employeId) {
-            return $this->fail('Employe ID parameter is required', 400);
-        }
-
-        $model = new Employe();
-        $employe = $model->find($employeId);
-        $employeConges = $employe->conges;
-
-        $formattedConges = [];
-
-        foreach ($employeConges as $conge) {
-            $formattedConges[] = [
-                'id' => $conge->id,
-                'dateDebut' => $conge->date_effective,
-                'dateFin' => $conge->date_retour,
-                //'motif' => $conge->motif,
-                'description' => $conge->description,
-                'paye' => $conge->paye,
-                'motif_refus' => $conge->motif_refus,
-                'employe' => [
-                    'id' => $conge->employe->id,
-                    'nom' => $conge->employe->nom,
-                    'prenom' => $conge->employe->prenom
-                ],
-                'historiqueConge' => [
-                    'id' => $conge->historiqueConge->id,
-                    'dateDemande' => $conge->historiqueConge->date_demande,
-                    'dateDecision' => $conge->historiqueConge->date_decision,
-                    'etat' => $conge->historiqueConge->etat
-                ]
-            ];
-        }
-
-        return $this->respond($formattedConges);
-    }
-
-    public function getEmployeHistoriqueConges()
-    {
-        $data = $this->request->getRawInput();
-        $employeId = $data['employe_id'];
-        if (!$employeId) {
-            return $this->fail('Employe ID parameter is required', 400);
-        }
-
-        $model = new Employe();
-        $employe = $model->find($employeId);
-        return $this->respond($employe->historiquesConges);
-    }
-
-    public function getEmployeMessages()
-    {
-        $employeId = $this->request->getGet('employe_id');
-        if (!$employeId) {
-            return $this->fail('Employe ID parameter is required', 400);
-        }
-
-        $model = new Employe();
-        $employe = $model->find($employeId);
-        return $this->respond($employe->messages);
-    }
-
-    public function getHistoriquecongeConges()
-    {
-        $historiquecongeId = $this->request->getGet('historiqueconge_id');
-        if (!$historiquecongeId) {
-            return $this->fail('Historiqueconge ID parameter is required', 400);
-        }
-
-        $model = new Historiqueconge();
-        $historiqueconge = $model->find($historiquecongeId);
-        return $this->respond($historiqueconge->conges);
-    }
-
-    public function getCongeEmploye()
-    {
-        $congeId = $this->request->getGet('conge_id');
-        if (!$congeId) {
-            return $this->fail('Conge ID parameter is required', 400);
-        }
-
-        $model = new Conge();
-        $conge = $model->find($congeId);
-        return $this->respond($conge->employe);
-    }
-
-    public function getCongeHistoriqueconge()
-    {
-        $congeId = $this->request->getGet('conge_id');
-        if (!$congeId) {
-            return $this->fail('Conge ID parameter is required', 400);
-        }
-
-        $model = new Conge();
-        $conge = $model->find($congeId);
-        return $this->respond($conge->historiqueConge);
-    }
-
-    public function getMessageEmploye()
-    {
-        $messageId = $this->request->getGet('message_id');
-        if (!$messageId) {
-            return $this->fail('Message ID parameter is required', 400);
-        }
-
-        $model = new Message();
-        $message = $model->find($messageId);
-        return $this->respond($message->employe);
-    }
-
-    public function getCongeStats()
-    {
-        $enAttente = Historiqueconge::where('etat', 'En attente')->count();
-        $rejete = Historiqueconge::where('etat', 'Rejete')->count();
-        $accepte = Historiqueconge::where('etat', 'Accepte')->count();
-
-        $stats = [
-            'en_attente' => $enAttente,
-            'rejete' => $rejete,
-            'accepte' => $accepte
-        ];
-
-        return $this->respond($stats);
-    }
-
-    public function getEmployeCongeStats($employeId)
-    {
-
-
-        $enAttente = Historiqueconge::where('employe_id', $employeId)
-            ->where('etat', 'en attente')
-            ->count();
-        $rejete = Historiqueconge::where('employe_id', $employeId)
-            ->where('etat', 'rejete')
-            ->count();
-        $accepte = Historiqueconge::where('employe_id', $employeId)
-            ->where('etat', 'accepte')
-            ->count();
-
-        $stats = [
-            'en_attente' => $enAttente,
-            'rejete' => $rejete,
-            'accepte' => $accepte
-        ];
-
-        return $this->respond($stats);
-    }
-
+    // Get conges by service ID
     public function getCongesByService($serviceId)
     {
         if (!$serviceId) {
@@ -1035,32 +894,208 @@ class Api extends ResourceController
         return $this->respond($formattedConges);
     }
 
-    /* public function getServiceEmployes($serviceId)
+    // Get conge statistics
+    public function getCongeStats()
     {
-        if (!$serviceId) {
-            return $this->fail('Service ID is required', 400);
-        }
+        $enAttente = Historiqueconge::where('etat', 'En attente')->count();
+        $rejete = Historiqueconge::where('etat', 'Rejete')->count();
+        $accepte = Historiqueconge::where('etat', 'Accepte')->count();
 
-        $employes = Employe::where('service_id', $serviceId)
-            ->select([
-                'id',
-                'nom',
-                'prenom',
-                'email',
-                'role',
-                'adresse',
-                'code_postal',
-                'service_id'
-            ])
-            ->get();
-
-        $employeCount = $employes->count();
-
-        $response = [
-            'employes' => $employes,
-            'total' => $employeCount
+        $stats = [
+            'en_attente' => $enAttente,
+            'rejete' => $rejete,
+            'accepte' => $accepte
         ];
 
-        return $this->respond($response);
-    }*/
+        return $this->respond($stats);
+    }
+
+    // Get conge statistics for a specific employee
+    public function getEmployeCongeStats($employeId)
+    {
+
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+        $joursRestants = Employe::where('id', $employeId)->value('nb_conges_payes');
+
+        $enAttente = Historiqueconge::where('employe_id', $employeId)
+            ->where('etat', 'en attente')
+            ->count();
+        $rejete = Historiqueconge::where('employe_id', $employeId)
+            ->where('etat', 'rejete')
+            ->count();
+        $accepte = Historiqueconge::where('employe_id', $employeId)
+            ->where('etat', 'accepte')
+            ->count();
+
+        $stats = [
+            'joursRestants' => $joursRestants,
+            'en_attente' => $enAttente,
+            'rejete' => $rejete,
+            'accepte' => $accepte
+        ];
+
+        return $this->respond($stats);
+    }
+
+    // -------------------- Relationship-Based Operations --------------------
+
+    // Get employees of a service
+    public function getServiceEmployesDirigeants()
+    {
+        $serviceId = $this->request->getGet('service_id');
+        if (!$serviceId) {
+            return $this->fail('Service ID parameter is required', 400);
+        }
+
+        $model = new Service();
+        $service = $model->find($serviceId);
+        return $this->respond($service->employesDirigeants);
+    }
+
+    // Get the service of an employee
+    public function getEmployeService()
+    {
+        $employeId = $this->request->getGet('employe_id');
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+
+        $model = new Employe();
+        $employe = $model->find($employeId);
+        return $this->respond($employe->service);
+    }
+
+    // Get the service directed by an employee
+    public function getEmployeServiceDirige()
+    {
+        $employeId = $this->request->getGet('employe_id');
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+
+        $model = new Employe();
+        $employe = $model->find($employeId);
+        return $this->respond($employe->serviceDirige);
+    }
+
+    // Get conges of an employee
+    public function getEmployeConges($employeId)
+    {
+
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+
+        $model = new Employe();
+        $employe = $model->find($employeId);
+        $employeConges = $employe->conges;
+
+        $formattedConges = [];
+
+        foreach ($employeConges as $conge) {
+            $formattedConges[] = [
+                'id' => $conge->id,
+                'dateDebut' => $conge->date_effective,
+                'dateFin' => $conge->date_retour,
+                //'motif' => $conge->motif,
+                'description' => $conge->description,
+                'paye' => $conge->paye,
+                'motif_refus' => $conge->motif_refus,
+                'employe' => [
+                    'id' => $conge->employe->id,
+                    'nom' => $conge->employe->nom,
+                    'prenom' => $conge->employe->prenom
+                ],
+                'historiqueConge' => [
+                    'id' => $conge->historiqueConge->id,
+                    'dateDemande' => $conge->historiqueConge->date_demande,
+                    'dateDecision' => $conge->historiqueConge->date_decision,
+                    'etat' => $conge->historiqueConge->etat
+                ]
+            ];
+        }
+
+        return $this->respond($formattedConges);
+    }
+
+    // Get historiqueconges of an employee
+    public function getEmployeHistoriqueConges()
+    {
+        $data = $this->request->getRawInput();
+        $employeId = $data['employe_id'];
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+
+        $model = new Employe();
+        $employe = $model->find($employeId);
+        return $this->respond($employe->historiquesConges);
+    }
+
+    // Get messages of an employee
+    public function getEmployeMessages()
+    {
+        $employeId = $this->request->getGet('employe_id');
+        if (!$employeId) {
+            return $this->fail('Employe ID parameter is required', 400);
+        }
+
+        $model = new Employe();
+        $employe = $model->find($employeId);
+        return $this->respond($employe->messages);
+    }
+
+    // Get conges of a historiqueconge
+    public function getHistoriquecongeConges()
+    {
+        $historiquecongeId = $this->request->getGet('historiqueconge_id');
+        if (!$historiquecongeId) {
+            return $this->fail('Historiqueconge ID parameter is required', 400);
+        }
+
+        $model = new Historiqueconge();
+        $historiqueconge = $model->find($historiquecongeId);
+        return $this->respond($historiqueconge->conges);
+    }
+
+    // Get the employee of a conge
+    public function getCongeEmploye()
+    {
+        $congeId = $this->request->getGet('conge_id');
+        if (!$congeId) {
+            return $this->fail('Conge ID parameter is required', 400);
+        }
+
+        $model = new Conge();
+        $conge = $model->find($congeId);
+        return $this->respond($conge->employe);
+    }
+
+    // Get the historiqueconge of a conge
+    public function getCongeHistoriqueconge()
+    {
+        $congeId = $this->request->getGet('conge_id');
+        if (!$congeId) {
+            return $this->fail('Conge ID parameter is required', 400);
+        }
+
+        $model = new Conge();
+        $conge = $model->find($congeId);
+        return $this->respond($conge->historiqueConge);
+    }
+
+    // Get the employee of a message
+    public function getMessageEmploye()
+    {
+        $messageId = $this->request->getGet('message_id');
+        if (!$messageId) {
+            return $this->fail('Message ID parameter is required', 400);
+        }
+
+        $model = new Message();
+        $message = $model->find($messageId);
+        return $this->respond($message->employe);
+    }
 }

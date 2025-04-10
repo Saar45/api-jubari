@@ -8,15 +8,17 @@ class Conge extends Model
 {
     protected $table = 'v_conge';
 
-    public $timestamps = false; 
+    // Ensure this matches the actual primary key column in the database
+    protected $primaryKey = 'id'; // Change 'id' to the actual primary key if different
 
-    // Un congé appartient à un employé
+    public $timestamps = false;
+
+    // relationships
     public function employe()
     {
         return $this->belongsTo(Employe::class, 'employe_id');
     }
 
-    // Un congé est associé à un historique de congé
     public function historiqueConge()
     {
         return $this->belongsTo(HistoriqueConge::class, 'historique_conge_id');
