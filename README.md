@@ -1,68 +1,118 @@
-# CodeIgniter 4 Application Starter
+# API Jubari - Documentation
 
-## What is CodeIgniter?
+## Introduction
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Bienvenue dans l'API Jubari, une application développée avec le framework PHP **CodeIgniter 4**. Cette API permet de gérer les employés, les services, les congés, les messages, et bien plus encore. Elle est conçue pour être rapide, sécurisée et facile à utiliser.
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+## Prérequis
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Pour exécuter cette API, vous devez disposer des éléments suivants :
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- **PHP** version 8.1 ou supérieure.
+- Extensions PHP nécessaires :
+  - [intl](http://php.net/manual/en/intl.requirements.php)
+  - [mbstring](http://php.net/manual/en/mbstring.installation.php)
+  - [json](http://php.net/manual/en/json.installation.php) (activée par défaut)
+  - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) (si vous utilisez MySQL)
+  - [libcurl](http://php.net/manual/en/curl.requirements.php) (si vous utilisez la bibliothèque HTTP\CURLRequest)
+- Serveur web (Apache, Nginx, etc.) configuré pour pointer vers le dossier `public`.
 
-## Installation & updates
+## Installation
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1. **Cloner le dépôt :**
+   ```bash
+   git clone <url-du-dépôt>
+   cd Api-jubari
+   ```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+2. **Installer les dépendances avec Composer :**
+   ```bash
+   composer install
+   ```
 
-## Setup
+3. **Configurer l'environnement :**
+   - Copier le fichier `env` en `.env` :
+     ```bash
+     cp env .env
+     ```
+   - Modifier les paramètres dans le fichier `.env` :
+     - `app.baseURL` : URL de base de l'application.
+     - Paramètres de la base de données (`database.default.hostname`, `database.default.database`, etc.).
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+4. **Configurer le serveur web :**
+   - Assurez-vous que votre serveur web pointe vers le dossier `public` pour des raisons de sécurité.
 
-## Important Change with index.php
+5. **Lancer le serveur de développement :**
+   ```bash
+   php spark serve
+   ```
+   L'API sera accessible à l'adresse (Endpoint) suivante : `https://siomende.fr/sarr/jubari-api/`.
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Fonctionnalités
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### Gestion des Services
+- **Lister tous les services :** `GET /services`
+- **Obtenir un service par ID :** `GET /services/{id}`
+- **Créer un nouveau service :** `POST /services`
+- **Mettre à jour un service :** `PUT /services`
+- **Supprimer un service :** `DELETE /services`
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Gestion des Employés
+- **Lister tous les employés :** `GET /employes`
+- **Obtenir un employé par ID :** `GET /employes/{id}`
+- **Rechercher des employés par nom :** `GET /employes/search/{nom}`
+- **Créer ou mettre à jour un employé :** `POST /employes` ou `PUT /employes`
+- **Supprimer un employé :** `DELETE /employes`
 
-## Repository Management
+### Gestion des Congés
+- **Lister tous les congés :** `GET /conges`
+- **Obtenir un congé par ID :** `GET /conges/{id}`
+- **Créer un nouveau congé :** `POST /conges`
+- **Mettre à jour un congé :** `PUT /conges`
+- **Supprimer un congé :** `DELETE /conges`
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### Gestion des Messages
+- **Lister tous les messages :** `GET /messages`
+- **Obtenir un message par ID :** `GET /messages/{id}`
+- **Créer un nouveau message :** `POST /messages`
+- **Mettre à jour un message :** `PUT /messages`
+- **Supprimer un message :** `DELETE /messages`
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### Statistiques et Rapports
+- **Obtenir le nombre d'employés en congé actuellement :** `GET /stats/employes-on-leave`
+- **Obtenir les statistiques des congés :** `GET /stats/conges`
+- **Obtenir les statistiques des congés d'un employé :** `GET /stats/employes/{id}/conges`
 
-## Server Requirements
+## Sécurité
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+### Authentification JWT
+L'API utilise un système d'authentification basé sur **JWT (JSON Web Tokens)**. Les routes protégées nécessitent un jeton valide dans l'en-tête `Authorization`.
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+- **Exemple d'en-tête :**
+  ```
+  Authorization: Bearer <votre_token_jwt>
+  ```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+### CORS
+Le filtre **CORS** est activé pour permettre les requêtes provenant de différents domaines. Vous pouvez configurer les règles dans le fichier `.env` ou directement dans le filtre.
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## Configuration
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+- **Base URL :**
+  ```
+  app.baseURL = 'https://siomende.fr/sarr/jubari-api/'
+  ```
+
+
+## Contribution
+
+Les contributions sont les bienvenues ! Si vous trouvez un bug ou souhaitez proposer une amélioration, veuillez ouvrir une **issue** ou soumettre une **pull request**.
+
+## Support
+
+Pour toute question ou problème, veuillez contacter l'équipe de développement ou consulter la documentation officielle de CodeIgniter 4 : [https://codeigniter.com/user_guide/](https://codeigniter.com/user_guide/).
+
+## Licence
+
+Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d'informations.
