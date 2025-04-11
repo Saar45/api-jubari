@@ -52,36 +52,168 @@ Pour exécuter cette API, vous devez disposer des éléments suivants :
 
 ### Gestion des Services
 - **Lister tous les services :** `GET /services`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/services
+    ```
+
 - **Obtenir un service par ID :** `GET /services/{id}`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/services/1
+    ```
+
 - **Créer un nouveau service :** `POST /services`
+  - **Exemple de requête :**
+    ```bash
+    curl -X POST https://siomende.fr/sarr/jubari-api/services \
+    -H "Content-Type: application/json" \
+    -d '{"description": "Service Informatique"}'
+    ```
+
 - **Mettre à jour un service :** `PUT /services`
+  - **Exemple de requête :**
+    ```bash
+    curl -X PUT https://siomende.fr/sarr/jubari-api/services \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1, "description": "Service RH", "chef_id": 2}'
+    ```
+
 - **Supprimer un service :** `DELETE /services`
+  - **Exemple de requête :**
+    ```bash
+    curl -X DELETE https://siomende.fr/sarr/jubari-api/services \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1}'
+    ```
 
 ### Gestion des Employés
 - **Lister tous les employés :** `GET /employes`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/employes
+    ```
+
 - **Obtenir un employé par ID :** `GET /employes/{id}`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/employes/1
+    ```
+
 - **Rechercher des employés par nom :** `GET /employes/search/{nom}`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/employes/search/Dupont
+    ```
+
 - **Créer ou mettre à jour un employé :** `POST /employes` ou `PUT /employes`
+  - **Exemple de requête :**
+    ```bash
+    curl -X POST https://siomende.fr/sarr/jubari-api/employes \
+    -H "Content-Type: application/json" \
+    -d '{"nom": "Dupont", "prenom": "Jean", "email": "jean.dupont@example.com", "service_id": 1}'
+    ```
+
 - **Supprimer un employé :** `DELETE /employes`
+  - **Exemple de requête :**
+    ```bash
+    curl -X DELETE https://siomende.fr/sarr/jubari-api/employes \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1}'
+    ```
 
 ### Gestion des Congés
 - **Lister tous les congés :** `GET /conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/conges
+    ```
+
 - **Obtenir un congé par ID :** `GET /conges/{id}`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/conges/1
+    ```
+
 - **Créer un nouveau congé :** `POST /conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X POST https://siomende.fr/sarr/jubari-api/conges \
+    -H "Content-Type: application/json" \
+    -d '{"dateD": "2023-10-01", "dateF": "2023-10-15", "description": "Vacances", "paye": true, "idE": 1}'
+    ```
+
 - **Mettre à jour un congé :** `PUT /conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X PUT https://siomende.fr/sarr/jubari-api/conges \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1, "dateD": "2023-10-01", "dateF": "2023-10-20", "description": "Vacances prolongées"}'
+    ```
+
 - **Supprimer un congé :** `DELETE /conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X DELETE https://siomende.fr/sarr/jubari-api/conges \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1}'
+    ```
 
 ### Gestion des Messages
 - **Lister tous les messages :** `GET /messages`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/messages
+    ```
+
 - **Obtenir un message par ID :** `GET /messages/{id}`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/messages/1
+    ```
+
 - **Créer un nouveau message :** `POST /messages`
+  - **Exemple de requête :**
+    ```bash
+    curl -X POST https://siomende.fr/sarr/jubari-api/messages \
+    -H "Content-Type: application/json" \
+    -d '{"date": "2023-10-01", "description": "Problème technique", "idE": 1}'
+    ```
+
 - **Mettre à jour un message :** `PUT /messages`
+  - **Exemple de requête :**
+    ```bash
+    curl -X PUT https://siomende.fr/sarr/jubari-api/messages \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1, "date": "2023-10-02", "description": "Problème résolu"}'
+    ```
+
 - **Supprimer un message :** `DELETE /messages`
+  - **Exemple de requête :**
+    ```bash
+    curl -X DELETE https://siomende.fr/sarr/jubari-api/messages \
+    -H "Content-Type: application/json" \
+    -d '{"id": 1}'
+    ```
 
 ### Statistiques et Rapports
 - **Obtenir le nombre d'employés en congé actuellement :** `GET /stats/employes-on-leave`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/stats/employes-on-leave
+    ```
+
 - **Obtenir les statistiques des congés :** `GET /stats/conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/stats/conges
+    ```
+
 - **Obtenir les statistiques des congés d'un employé :** `GET /stats/employes/{id}/conges`
+  - **Exemple de requête :**
+    ```bash
+    curl -X GET https://siomende.fr/sarr/jubari-api/stats/employes/1/conges
+    ```
 
 ## Sécurité
 
