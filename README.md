@@ -17,37 +17,6 @@ Pour exécuter cette API, vous devez disposer des éléments suivants :
   - [libcurl](http://php.net/manual/en/curl.requirements.php) (si vous utilisez la bibliothèque HTTP\CURLRequest)
 - Serveur web (Apache, Nginx, etc.) configuré pour pointer vers le dossier `public`.
 
-## Installation
-
-1. **Cloner le dépôt :**
-   ```bash
-   git clone <url-du-dépôt>
-   cd Api-jubari
-   ```
-
-2. **Installer les dépendances avec Composer :**
-   ```bash
-   composer install
-   ```
-
-3. **Configurer l'environnement :**
-   - Copier le fichier `env` en `.env` :
-     ```bash
-     cp env .env
-     ```
-   - Modifier les paramètres dans le fichier `.env` :
-     - `app.baseURL` : URL de base de l'application.
-     - Paramètres de la base de données (`database.default.hostname`, `database.default.database`, etc.).
-
-4. **Configurer le serveur web :**
-   - Assurez-vous que votre serveur web pointe vers le dossier `public` pour des raisons de sécurité.
-
-5. **Lancer le serveur de développement :**
-   ```bash
-   php spark serve
-   ```
-   L'API sera accessible à l'adresse (Endpoint) suivante : `https://siomende.fr/sarr/jubari-api/`.
-
 ## Fonctionnalités
 
 ### Gestion des Services
@@ -227,15 +196,6 @@ L'API utilise un système d'authentification basé sur **JWT (JSON Web Tokens)**
 
 ### CORS
 Le filtre **CORS** est activé pour permettre les requêtes provenant de différents domaines. Vous pouvez configurer les règles dans le fichier `.env` ou directement dans le filtre.
-
-## Configuration
-
-
-- **Base URL :**
-  ```
-  app.baseURL = 'https://siomende.fr/sarr/jubari-api/'
-  ```
-
 
 ## Contribution
 
