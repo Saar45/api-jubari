@@ -1,5 +1,35 @@
 # API Jubari - Documentation
 
+## Sécurité
+
+### Authentification JWT
+L'API utilise un système d'authentification basé sur **JWT (JSON Web Tokens)**. Les routes protégées nécessitent un jeton valide dans l'en-tête `Authorization`.
+
+- **Exemple de requête de connexion :**
+    ```bash
+    curl -X POST https://siomende.fr/sarr/jubari-api/login \
+    -H "Content-Type: application/json" \
+    -d '{"email": "user@example.com", "password": "password123"}'
+    ```
+
+- **Exemple de réponse :**
+    ```json
+    {
+        "message": "Connexion réussie",
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+        "user_id": 1
+    }
+    ```
+
+- **Utilisation du token :**
+    Une fois connecté, le token doit accompagner toutes les requêtes protégées dans l'en-tête `Authorization` :
+    ```
+    Authorization: Bearer <votre_token_jwt>
+    ```
+
+### CORS
+Le filtre **CORS** est activé pour permettre les requêtes provenant de différents domaines. Vous pouvez configurer les règles dans le fichier `.env` ou directement dans le filtre.
+
 ## Introduction
 
 Bienvenue dans l'API Jubari, une application développée avec le framework PHP **CodeIgniter 4**. Cette API permet de gérer les employés, les services, les congés, les messages, et bien plus encore. Elle est conçue pour être rapide, sécurisée et facile à utiliser.
@@ -175,19 +205,6 @@ L'API est accessible à l'adresse suivante :
     ```bash
     curl -X GET https://siomende.fr/sarr/jubari-api/stats/employes/1/conges
     ```
-
-## Sécurité
-
-### Authentification JWT
-L'API utilise un système d'authentification basé sur **JWT (JSON Web Tokens)**. Les routes protégées nécessitent un jeton valide dans l'en-tête `Authorization`.
-
-- **Exemple d'en-tête :**
-  ```
-  Authorization: Bearer <votre_token_jwt>
-  ```
-
-### CORS
-Le filtre **CORS** est activé pour permettre les requêtes provenant de différents domaines. Vous pouvez configurer les règles dans le fichier `.env` ou directement dans le filtre.
 
 ## Contribution
 
