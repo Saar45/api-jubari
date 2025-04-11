@@ -212,7 +212,7 @@ Les contributions sont les bienvenues ! Si vous trouvez un bug ou souhaitez prop
 
 ## Support
 
-Pour toute question ou problème, veuillez contacter me contacter ou consulter la documentation officielle de CodeIgniter 4 : [https://codeigniter.com/user_guide/](https://codeigniter.com/user_guide/).
+Pour toute question ou problème, veuillez me contacter ou consulter la documentation officielle de CodeIgniter 4 : [https://codeigniter.com/user_guide/](https://codeigniter.com/user_guide/).
 
 ## Licence
 
