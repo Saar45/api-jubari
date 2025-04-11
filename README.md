@@ -4,18 +4,10 @@
 
 Bienvenue dans l'API Jubari, une application développée avec le framework PHP **CodeIgniter 4**. Cette API permet de gérer les employés, les services, les congés, les messages, et bien plus encore. Elle est conçue pour être rapide, sécurisée et facile à utiliser.
 
-## Prérequis
+### Endpoint principal
 
-Pour exécuter cette API, vous devez disposer des éléments suivants :
-
-- **PHP** version 8.1 ou supérieure.
-- Extensions PHP nécessaires :
-  - [intl](http://php.net/manual/en/intl.requirements.php)
-  - [mbstring](http://php.net/manual/en/mbstring.installation.php)
-  - [json](http://php.net/manual/en/json.installation.php) (activée par défaut)
-  - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) (si vous utilisez MySQL)
-  - [libcurl](http://php.net/manual/en/curl.requirements.php) (si vous utilisez la bibliothèque HTTP\CURLRequest)
-- Serveur web (Apache, Nginx, etc.) configuré pour pointer vers le dossier `public`.
+L'API est accessible à l'adresse suivante :  
+`https://siomende.fr/sarr/jubari-api/`
 
 ## Fonctionnalités
 
